@@ -7,10 +7,16 @@ import {
     atualizarResponsavel,
     excluirResponsavel
 } from './controllers/responsaveisController.js';
+import { cadastrarDependenteController, listarDependentesController } from './controllers/dependentesController.js';
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+// Rota para dependente
+app.post('/dependentes', cadastrarDependenteController);
+// Rota para listar dependentes
+app.get('/dependentes', listarDependentesController);
 
 // Rotas para responsáveis
 app.post('/responsaveis', cadastroResponsavel);
