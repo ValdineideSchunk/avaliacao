@@ -19,11 +19,11 @@ app.post('/dependentes', cadastrarDependenteController);
 app.get('/dependentes', listarDependentesController);
 
 // Rotas para responsáveis
-app.post('/responsaveis', cadastroResponsavel);
-app.get('/responsaveis', listarResponsaveis);
-app.get('/responsaveis/:id', mostrarUmResponsavel);
-app.put('/responsaveis/:id', atualizarResponsavel);
-app.delete('/responsaveis/:id', excluirResponsavel);
+app.post('/usuario', cadastroResponsavel);
+app.get('/usuario', listarResponsaveis);
+app.get('/usuario/:id', mostrarUmResponsavel);
+app.put('/usuario/:id', atualizarResponsavel);
+app.delete('/usuario/:id', excluirResponsavel);
 
 app.listen(5000, () => {
     console.log('Servidor rodando na porta 5000');

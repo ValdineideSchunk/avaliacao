@@ -32,23 +32,25 @@ const ListaDependentes = () => {
 
     return (
         <div className="container mt-4">
-            <h2 className="text-center mb-4">Lista de Dependentes</h2>
+            <h2 className="text-center mb-4">Lista de Tarefas</h2>
             <table className="table table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nome do Dependente</th>
-                        <th>Data de Nascimento</th>
-                        <th>Responsável</th>
+                        <th>Setor</th>
+                        <th>Prioridade</th>
+                        <th>Data Cadastro</th>
+                        <th>Status Tarefa</th>
                     </tr>
                 </thead>
                 <tbody>
                     {dependentes.map((dependente) => (
-                        <tr key={dependente.id_dependente}>
-                            <td>{dependente.id_dependente}</td>
-                            <td>{dependente.nome_dependente}</td>
-                            <td>{dependente.data_nascimento}</td>
-                            <td>{dependente.responsavel_nome}</td>
+                        <tr key={dependente.id_tarefas}>
+                            <td>{dependente.id_tarefas}</td>
+                            <td>{dependente.nome_setor}</td>
+                            <td>{dependente.prioridade}</td>
+                            <td>{dependente.data_cadastro}</td>
+                            <td>{dependente.status_tarefa}</td>
                         </tr>
                     ))}
                 </tbody>

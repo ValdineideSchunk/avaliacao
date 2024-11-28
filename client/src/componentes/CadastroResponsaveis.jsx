@@ -8,7 +8,6 @@ const CadastroResponsaveis = () => {
     const [formData, setFormData] = useState({
         nome: '',
         email: '',
-        telefone: '',
     });
     const [message, setMessage] = useState('');
 
@@ -17,10 +16,10 @@ const CadastroResponsaveis = () => {
         if (id) {
             const fetchResponsavel = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:5000/responsaveis/${id}`);
+                    const response = await axios.get(`http://localhost:5000/usuario/${id}`);
                     setFormData(response.data);
                 } catch (error) {
-                    setMessage('Erro ao carregar os dados do responsável.');
+                    setMessage('Erro ao carregar os dados do usuariol.');
                 }
             };
             fetchResponsavel();
@@ -37,12 +36,12 @@ const CadastroResponsaveis = () => {
         try {
             if (id) {
                 // Atualiza os dados do responsável
-                await axios.put(`http://localhost:5000/responsaveis/${id}`, formData);
+                await axios.put(`http://localhost:5000/usuario/${id}`, formData);
                 setMessage('Responsável atualizado com sucesso!');
             } else {
                 // Cria um novo responsável
-                await axios.post('http://localhost:5000/responsaveis', formData);
-                setMessage('Responsável cadastrado com sucesso!');
+                await axios.post('http://localhost:5000/usuario', formData);
+                setMessage('usuario cadastrado com sucesso!');
             }
             // Redireciona para a lista de responsáveis após salvar
             navigate('/lista_responsaveis');
@@ -53,7 +52,7 @@ const CadastroResponsaveis = () => {
 
     return (
         <div className="container mt-4">
-            <h2 className="text-center mb-4">{id ? 'Editar Responsável' : 'Cadastrar Responsável'}</h2>
+            <h2 className="text-center mb-4">{id ? 'Editar Usuario' : 'Cadastrar Usuario'}</h2>
             <form onSubmit={handleSubmit} className="p-4 border rounded bg-light">
                 <div className="mb-3">
                     <label className="form-label">Nome:</label>
@@ -75,17 +74,6 @@ const CadastroResponsaveis = () => {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Telefone:</label>
-                    <input
-                        type="text"
-                        name="telefone"
-                        className="form-control"
-                        value={formData.telefone}
-                        onChange={handleChange}
-                        required  
                     />
                 </div>
                 <button type="submit" className="btn btn-primary w-100">

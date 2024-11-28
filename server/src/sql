@@ -1,0 +1,29 @@
+/*DROP DATABASE IF EXISTS avaliacao; -- Deleta o banco de dados se ele já existir
+
+CREATE DATABASE avaliacao; -- Cria o banco de dados
+USE avaliacao;
+
+-- Tabela de Responsáveis
+CREATE TABLE usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY, -- ID único para o responsável
+    nome VARCHAR(100), -- Nome do responsável
+    email VARCHAR(100)
+);
+
+-- Tabela de Dependentes (anteriormente 'filhos')
+CREATE TABLE tarefas (
+    id_tarefas INT AUTO_INCREMENT PRIMARY KEY, -- ID único para o dependente
+    id_usuario INT NOT NULL, 
+    nome_setor VARCHAR(100) NOT NULL, -- Nome do dependente
+    prioridade VARCHAR(100) NOT NULL,
+	descricao_tarefa VARCHAR(100) NOT NULL,
+    data_cadastro DATE ,
+    status_tarefa VARCHAR(100) NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE
+);
+
+-- Selecionar todos os registros da tabela de responsáveis
+SELECT * FROM usuario;
+
+-- Selecionar todos os registros da tabela de dependentes
+SELECT * FROM tarefas; */

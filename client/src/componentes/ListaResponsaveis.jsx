@@ -10,7 +10,7 @@ const ListaResponsaveis = () => {
     useEffect(() => {
         const fetchResponsaveis = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/responsaveis');
+                const response = await axios.get('http://localhost:5000/usuario');
                 setResponsaveis(response.data);
                 setLoading(false);
             } catch (err) {
@@ -28,8 +28,8 @@ const ListaResponsaveis = () => {
         const confirmDelete = window.confirm('Você tem certeza que deseja excluir este responsável?');
         if (confirmDelete) {
             try {
-                await axios.delete(`http://localhost:5000/responsaveis/${id}`);
-                setResponsaveis(responsaveis.filter(responsavel => responsavel.id_responsavel !== id)); // Atualiza a lista
+                await axios.delete(`http://localhost:5000/usuario/${id}`);
+                setResponsaveis(responsaveis.filter(responsavel => responsavel.id_usuario !== id)); // Atualiza a lista
                 alert('Responsável excluído com sucesso!');
             } catch (error) {
                 console.error(error);
@@ -48,28 +48,27 @@ const ListaResponsaveis = () => {
 
     return (
         <div className="container mt-4">
-            <h2 className="text-center mb-4">Lista de Responsáveis</h2>
+            <h2 className="text-center mb-4">Lista de Usuarios</h2>
             <table className="table table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Email</th>
-                        <th>Telefone</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {responsaveis.map((responsavel) => (
-                        <tr key={responsavel.id_responsavel}>
-                            <td>{responsavel.id_responsavel}</td>
+                        <tr key={responsavel.id_usuario}>
+                            <td>{responsavel.id_usuario}</td>
                             <td>{responsavel.nome}</td>
                             <td>{responsavel.email}</td>
                             <td>{responsavel.telefone}</td>
                             <td>
                                 {/* Botão Editar */}
                                 <Link
-                                    to={`/cadastro_responsaveis/${responsavel.id_responsavel}`}
+                                    to={`/cadastro_responsaveis/${responsavel.id_usuario}`}
                                     className="btn btn-warning btn-sm me-2"
                                 >
                                     Editar
@@ -78,7 +77,7 @@ const ListaResponsaveis = () => {
                                 {/* Botão Deletar */}
                                 <button
                                     className="btn btn-danger btn-sm"
-                                    onClick={() => handleDelete(responsavel.id_responsavel)}
+                                    onClick={() => handleDelete(responsavel.id_usuario)}
                                 >
                                     Deletar
                                 </button>

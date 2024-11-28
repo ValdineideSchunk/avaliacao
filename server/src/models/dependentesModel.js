@@ -1,15 +1,32 @@
 import pool from '../conexao.js'; // Conexão com o banco de dados
 
 // Função para cadastrar dependente
-export const cadastrarDependente = async (nome_dependente, data_nascimento, id_responsavel) => {
+export const cadastrarDependente = async (
+    id_usuario,
+    descricao_tarefa,
+    nome_setor,
+    prioridade,
+    data_cadastro,
+    status_tarefa) => {
     const sql = `
-        INSERT INTO dependentes (nome_dependente, data_nascimento, id_responsavel)
-        VALUES (?, ?, ?)
+        INSERT INTO tarefas (id_usuario,
+        descricao_tarefa,
+        nome_setor,
+        prioridade,
+        data_cadastro,
+        status_tarefa)
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
     
-    const params = [nome_dependente, data_nascimento, id_responsavel];
+    const params = [id_usuario,
+        descricao_tarefa,
+        nome_setor,
+        prioridade,
+        data_cadastro,
+        status_tarefa];
 
     try {
+        console.log("dados recebidos",params)
         const [result] = await pool.query(sql, params);
         return result.insertId; // Retorna o ID do dependente inserido
     } catch (error) {
@@ -19,14 +36,12 @@ export const cadastrarDependente = async (nome_dependente, data_nascimento, id_r
 
 // Função para listar todos os dependentes
 export const listarDependentes = async () => {
-    const sql = `
-        SELECT d.id_dependente, d.nome_dependente, d.data_nascimento, r.nome AS responsavel_nome
-        FROM dependentes d
-        JOIN responsaveis r ON d.id_responsavel = r.id_responsavel
-    `;
+    const sql = `SELECT * FROM tarefas`;
     
     try {
+        
         const [result] = await pool.query(sql);
+        console.log(result);
         return result; // Retorna a lista de dependentes com o nome do responsável
     } catch (error) {
         throw new Error('Erro ao listar dependentes: ' + error.message);
