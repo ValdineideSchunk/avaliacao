@@ -14,7 +14,8 @@ import {
     listarTarefasController,
     excluirTarefaController,
     mostrarUmaTarefaController,
-    editarTarefaController
+    editarTarefaController,
+    editarStatusTarefaController 
 } from './controllers/tarefasController.js';
 
 const app = express();
@@ -25,8 +26,11 @@ app.use(cors());
 app.post('/tarefas', cadastrarTarefaController); // Cadastro de tarefa
 app.get('/tarefas', listarTarefasController); // Listar tarefas
 app.delete('/tarefas/:id', excluirTarefaController); // Excluir tarefa por ID
-app.get('/tarefas/:id', mostrarUmaTarefaController);
-app.put('/tarefas/:id', editarTarefaController);// editar uma tarefa
+app.get('/tarefas/:id', mostrarUmaTarefaController); // Buscar uma tarefa por ID
+app.put('/tarefas/:id', editarTarefaController); // Editar tarefa completa
+app.put('/status/:id/', editarStatusTarefaController); // Editar apenas o status da tarefa
+
+
 
 // Rotas para usuários
 app.post('/usuarios', cadastroUsuario); // Cadastro de usuário

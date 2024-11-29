@@ -33,7 +33,9 @@ const ListaTarefas = () => {
   }
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Você tem certeza que deseja excluir esta tarefa?");
+    const confirmDelete = window.confirm(
+      "Você tem certeza que deseja excluir esta tarefa?"
+    );
     if (confirmDelete) {
       try {
         await axios.delete(`http://localhost:5000/tarefas/${id}`);
@@ -52,12 +54,47 @@ const ListaTarefas = () => {
 
   const statusMap = {
     "A Fazer": "A Fazer",
-    "Fazendo": "Fazendo",
-    "Pronto": "Pronto",
+    Fazendo: "Fazendo",
+    Pronto: "Pronto",
+  };
+
+  // Função para atualizar o estado local ao alterar o select
+  const handleStatusChangeLocal = (id, newStatus) => {
+    setTarefas((tarefasAtuais) =>
+      tarefasAtuais.map((tarefa) =>
+        tarefa.id_tarefas === id ? { ...tarefa, novoStatus: newStatus } : tarefa
+      )
+    );
+  };
+
+  // Função para salvar o status no backend
+  
+  const handleStatusUpdate = async (id, newStatus) => {
+    if (!newStatus) return; // Caso o status não tenha sido alterado
+    try {
+      const response = await axios.put(`http://localhost:5000/status/${id}`, {
+        status_tarefa: newStatus,
+      });
+
+      console.log(`Tarefa ${id} atualizada com sucesso!`, response.data);
+
+      // Atualiza o estado local para refletir a alteração persistida
+      setTarefas((tarefasAtuais) =>
+        tarefasAtuais.map((tarefa) =>
+          tarefa.id_tarefas === id
+            ? { ...tarefa, status_tarefa: newStatus, novoStatus: undefined }
+            : tarefa
+        )
+      );
+    } catch (error) {
+      console.error("Erro ao atualizar o status da tarefa:", error);
+    }
   };
 
   const renderTarefasPorStatus = (status) => {
-    const tarefasFiltradas = tarefas.filter((tarefa) => tarefa.status_tarefa === status);
+    const tarefasFiltradas = tarefas.filter(
+      (tarefa) => tarefa.status_tarefa === status
+    );
 
     if (tarefasFiltradas.length === 0) {
       return <p className="text-center">Nenhuma tarefa encontrada.</p>;
@@ -81,10 +118,12 @@ const ListaTarefas = () => {
                 <strong>Status:</strong> {tarefa.status_tarefa}
               </p>
               <p>
-                <strong>Usuário Vinculado:</strong> {tarefa.nome || "Não informado"}
+                <strong>Usuário Vinculado:</strong>{" "}
+                {tarefa.nome || "Não informado"}
               </p>
               <p>
-                <strong>Data Cadastro:</strong> {tarefa.data_cadastro ? tarefa.data_cadastro.split("T")[0] : ""}
+                <strong>Data Cadastro:</strong>{" "}
+                {tarefa.data_cadastro ? tarefa.data_cadastro.split("T")[0] : ""}
               </p>
               <div className="d-flex justify-content-between">
                 <button
@@ -100,12 +139,40 @@ const ListaTarefas = () => {
                   Excluir
                 </button>
               </div>
+              <div className="d-flex justify-content">
+
+                <select
+                  id={`status-select-${tarefa.id_tarefas}`}
+                  className="form-select form-select-sm"
+                  value={tarefa.novoStatus || tarefa.status_tarefa}
+                  onChange={(e) =>
+                    handleStatusChangeLocal(tarefa.id_tarefas, e.target.value)
+                  }
+                >
+                  <option value="A Fazer">A Fazer</option>
+                  <option value="Fazendo">Fazendo</option>
+                  <option value="Pronto">Pronto</option>
+                </select>
+
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={() =>
+                    handleStatusUpdate(
+                      tarefa.id_tarefas,
+                      tarefa.novoStatus || tarefa.status_tarefa
+                    )
+                  }
+                >
+                  Atualizar Status
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </div>
     );
   };
+
   return (
     <div className="container mt-4">
       <h2 className="text-center mb-4">Gerenciamento de Tarefas</h2>

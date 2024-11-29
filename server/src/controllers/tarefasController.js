@@ -1,4 +1,4 @@
-import { cadastrarTarefa, listarTarefas, excluirTarefa } from '../models/tarefasModel.js';
+import { cadastrarTarefa, listarTarefas, excluirTarefa, editarStatusTarefa } from '../models/tarefasModel.js';
 
 // Função para cadastrar tarefa
 export const cadastrarTarefaController = async (req, res) => {
@@ -125,5 +125,28 @@ export const editarTarefaController = async (req, res) => {
   } catch (error) {
     console.error("Erro ao atualizar tarefa:", error.message);
     res.status(500).json({ message: "Erro ao atualizar tarefa.", error: error.message });
+  }
+};
+
+// Controlador para editar uma tarefa
+export const editarStatusTarefaController = async (req, res) => {
+  const { id } = req.params; 
+  const { status_tarefa } = req.body; 
+
+  try {
+    
+    const resultado = await editarStatusTarefa(id, status_tarefa);
+
+    if (resultado.affectedRows > 0) { 
+      res.status(200).json({ message: "Status da tarefa atualizado com sucesso!" });
+    } else {
+      res.status(404).json({ message: "Tarefa não encontrada." });
+    }
+  } catch (error) {
+    console.error("Erro ao atualizar o status da tarefa:", error.message);
+    res.status(500).json({
+      message: "Erro ao atualizar o status da tarefa.",
+      error: error.message,
+    });
   }
 };
